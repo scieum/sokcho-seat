@@ -505,9 +505,12 @@
     "유희영", "고영제", "양혜연", "강하은", "전수빈",
     "차동희", "조길행"
   ];
-  const TABLE1_CENTER = "정승호";
-  const TABLE1_FLANKERS = ["김하린", "김수민"];
-  const STORAGE_KEY = "sokcho_chair_v3";
+  const TABLE1_PINS = {
+    0: "이현민",
+    1: "정승호",
+    2: "김수민",
+  };
+  const STORAGE_KEY = "sokcho_chair_v4";
 
   const VIEWS = ["landing", "setup", "checkin", "minigame"];
   const namesGrid     = document.getElementById("namesGrid");
@@ -589,24 +592,26 @@
       const key = normalize(target);
       return roster.find(function (n) { return normalize(n) === key; });
     };
-    const center = findInRoster(TABLE1_CENTER);
-    const flankerList = TABLE1_FLANKERS.map(findInRoster).filter(Boolean);
 
-    const pinnedKeys = new Set(
-      [center].concat(flankerList).filter(Boolean).map(normalize)
-    );
+    const pinnedAtPosition = {};
+    const pinnedKeys = new Set();
+    Object.keys(TABLE1_PINS).forEach(function (pos) {
+      const name = findInRoster(TABLE1_PINS[pos]);
+      if (name) {
+        pinnedAtPosition[pos] = name;
+        pinnedKeys.add(normalize(name));
+      }
+    });
+
     const others = fisherYates(
       roster.filter(function (n) { return !pinnedKeys.has(normalize(n)); })
     );
 
-    const shuffledFlankers = fisherYates(flankerList);
     const t1 = new Array(TABLES[0].size);
     let oi = 0;
-    t1[0] = shuffledFlankers[0] || others[oi++];
-    t1[1] = center              || others[oi++];
-    t1[2] = shuffledFlankers[1] || others[oi++];
-    for (let i = 3; i < t1.length; i++) t1[i] = others[oi++];
-
+    for (let i = 0; i < t1.length; i++) {
+      t1[i] = pinnedAtPosition[i] || others[oi++];
+    }
     const orderedPeople = t1.concat(others.slice(oi));
 
     const seats = [];
