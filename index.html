@@ -134,7 +134,7 @@
   }
   .name-input {
     width: 100%; height: 44px;
-    padding: 0 12px 0 36px;
+    padding: 0 34px 0 36px;
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 14px; color: var(--charcoal);
@@ -143,7 +143,25 @@
   }
   .name-input::placeholder { color: var(--text-disabled); }
   .name-input:focus {
-    outline: none; border: 2px solid var(--mint); padding: 0 11px 0 35px;
+    outline: none; border: 2px solid var(--mint); padding: 0 33px 0 35px;
+  }
+  .remove-btn {
+    position: absolute; top: 50%; right: 8px;
+    transform: translateY(-50%);
+    width: 22px; height: 22px;
+    border-radius: 9999px;
+    background: var(--surface-subtle);
+    color: var(--text-tertiary);
+    border: none; padding: 0;
+    font-size: 14px; font-weight: 700; line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit;
+    transition: background-color 150ms, color 150ms;
+  }
+  .remove-btn:hover {
+    background: var(--err-red);
+    color: var(--white);
   }
 
   .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
@@ -428,6 +446,7 @@
         <div class="names-grid" id="namesGrid"></div>
         <div class="actions">
           <button class="btn btn-primary" id="confirmRosterBtn">명단 확정하고 자리 배정</button>
+          <button class="btn btn-ghost" id="addInputBtn">＋ 인원 추가</button>
           <button class="btn btn-ghost" id="sampleBtn">기본 명단 불러오기</button>
           <button class="btn btn-neutral" id="clearBtn">전체 지우기</button>
         </div>
@@ -559,17 +578,56 @@
 
   function normalize(s) { return s.replace(/\s+/g, "").trim(); }
 
+  function appendInputRow(value) {
+    const count = namesGrid.querySelectorAll(".name-input-wrap").length;
+    const wrap = document.createElement("div");
+    wrap.className = "name-input-wrap";
+
+    const idx = document.createElement("span");
+    idx.className = "idx";
+    idx.textContent = String(count + 1).padStart(2, "0");
+
+    const input = document.createElement("input");
+    input.className = "name-input";
+    input.type = "text";
+    input.placeholder = "이름";
+    input.maxLength = 12;
+    input.value = value || "";
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "remove-btn";
+    remove.setAttribute("aria-label", "제거");
+    remove.textContent = "×";
+
+    wrap.appendChild(idx);
+    wrap.appendChild(input);
+    wrap.appendChild(remove);
+    namesGrid.appendChild(wrap);
+    return input;
+  }
+
+  function renumberRows() {
+    let n = 1;
+    namesGrid.querySelectorAll(".name-input-wrap").forEach(function (w) {
+      const idx = w.querySelector(".idx");
+      if (idx) idx.textContent = String(n++).padStart(2, "0");
+    });
+  }
+
+  function removeInputRow(wrap) {
+    wrap.remove();
+    renumberRows();
+  }
+
   function buildInputs() {
-    const frag = document.createDocumentFragment();
-    for (let i = 1; i <= TOTAL; i++) {
-      const wrap = document.createElement("div");
-      wrap.className = "name-input-wrap";
-      wrap.innerHTML =
-        '<span class="idx">' + String(i).padStart(2, "0") + '</span>' +
-        '<input class="name-input" type="text" placeholder="이름" maxlength="12" />';
-      frag.appendChild(wrap);
-    }
-    namesGrid.appendChild(frag);
+    namesGrid.innerHTML = "";
+    for (let i = 0; i < TOTAL; i++) appendInputRow("");
+  }
+
+  function handleAddInput() {
+    const input = appendInputRow("");
+    setTimeout(function () { input.focus(); }, 0);
   }
 
   function getRosterInputs() {
@@ -756,13 +814,13 @@
   }
 
   function fillSample() {
-    document.querySelectorAll(".name-input").forEach(function (el, i) {
-      el.value = DEFAULT_ROSTER[i] || "";
-    });
+    namesGrid.innerHTML = "";
+    DEFAULT_ROSTER.forEach(function (name) { appendInputRow(name); });
   }
 
   function clearAll() {
-    document.querySelectorAll(".name-input").forEach(function (el) { el.value = ""; });
+    namesGrid.innerHTML = "";
+    for (let i = 0; i < TOTAL; i++) appendInputRow("");
   }
 
   function resetAll() {
@@ -784,6 +842,13 @@
   confirmBtn.addEventListener("click", confirmRoster);
   sampleBtn.addEventListener("click", fillSample);
   clearBtn.addEventListener("click", clearAll);
+  document.getElementById("addInputBtn").addEventListener("click", handleAddInput);
+  namesGrid.addEventListener("click", function (e) {
+    const btn = e.target.closest(".remove-btn");
+    if (!btn) return;
+    const wrap = btn.closest(".name-input-wrap");
+    if (wrap) removeInputRow(wrap);
+  });
   checkinBtn.addEventListener("click", handleCheckin);
   checkinInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter") handleCheckin();
