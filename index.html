@@ -452,6 +452,7 @@
         <div class="names-grid" id="namesGrid"></div>
         <div class="actions">
           <button class="btn btn-primary" id="confirmRosterBtn">명단 확정하고 자리 배정</button>
+          <button class="btn btn-ghost" id="rotateRosterBtn">로테이션 배정</button>
           <button class="btn btn-ghost" id="addInputBtn">＋ 인원 추가</button>
           <button class="btn btn-ghost" id="sampleBtn">기본 명단 불러오기</button>
           <button class="btn btn-neutral" id="clearBtn">전체 지우기</button>
@@ -537,7 +538,11 @@
   };
   const TABLE1_BLACKLIST = ["김지형", "정인우", "최중한"];
   const TABLE1_ONE_OF = ["이준희", "조길행"];
-  const STORAGE_KEY = "sokcho_chair_v5";
+
+  const ROUND2_T1_GROUP = ["정승호", "김하린", "유희영"];
+  const ROUND2_APART_PAIR = ["김수민", "김지형"];
+
+  const STORAGE_KEY = "sokcho_chair_v6";
 
   const VIEWS = ["landing", "setup", "checkin", "minigame"];
   const namesGrid     = document.getElementById("namesGrid");
@@ -653,7 +658,12 @@
     return a;
   }
 
-  function buildAssignment(roster) {
+  function buildAssignment(roster, mode) {
+    if (mode === "rotation") return buildAssignmentRotation(roster);
+    return buildAssignmentDefault(roster);
+  }
+
+  function buildAssignmentDefault(roster) {
     const findInRoster = function (target) {
       const key = normalize(target);
       return roster.find(function (n) { return normalize(n) === key; });
@@ -725,7 +735,59 @@
     return seats;
   }
 
-  function confirmRoster() {
+  function buildAssignmentRotation(roster) {
+    const findInRoster = function (target) {
+      const key = normalize(target);
+      return roster.find(function (n) { return normalize(n) === key; });
+    };
+
+    const group = ROUND2_T1_GROUP.map(findInRoster).filter(Boolean);
+    const groupKeys = new Set(group.map(normalize));
+    const others = roster.filter(function (n) { return !groupKeys.has(normalize(n)); });
+
+    const pairA = findInRoster(ROUND2_APART_PAIR[0]);
+    const pairB = findInRoster(ROUND2_APART_PAIR[1]);
+
+    const MAX_TRIES = 60;
+    let finalSeats = null;
+
+    for (let tries = 0; tries < MAX_TRIES; tries++) {
+      const shuffledOthers = fisherYates(others);
+      const t1Size = TABLES[0].size;
+      const t1FillerCount = Math.max(0, t1Size - group.length);
+      const t1Fillers = shuffledOthers.slice(0, t1FillerCount);
+      const remaining = shuffledOthers.slice(t1FillerCount);
+
+      const t1Back = fisherYates(group.concat(t1Fillers));
+      const orderedPeople = t1Back.concat(remaining);
+
+      const candidate = [];
+      let cursor = 0;
+      let seatNum = 1;
+      TABLES.forEach(function (t) {
+        for (let i = 0; i < t.size; i++) {
+          candidate.push({
+            seat: seatNum++,
+            tableId: t.id,
+            positionInTable: i,
+            name: orderedPeople[cursor++],
+          });
+        }
+      });
+
+      finalSeats = candidate;
+      if (pairA && pairB) {
+        const seatA = candidate.find(function (s) { return s.name === pairA; });
+        const seatB = candidate.find(function (s) { return s.name === pairB; });
+        if (seatA && seatB && seatA.tableId === seatB.tableId) continue;
+      }
+      break;
+    }
+
+    return finalSeats;
+  }
+
+  function confirmRoster(mode) {
     const names = getRosterInputs();
     if (names.length !== TOTAL) {
       showToast("22명 이름을 모두 입력해주세요 (현재 " + names.length + "명)");
@@ -736,9 +798,15 @@
       showToast("같은 이름이 중복됐어요. 구분할 수 있게 수정해주세요");
       return;
     }
-    state = { roster: names, assignment: buildAssignment(names), revealed: [] };
+    state = {
+      roster: names,
+      assignment: buildAssignment(names, mode),
+      revealed: [],
+      mode: mode || "default",
+    };
     saveState();
     goToCheckin();
+    if (mode === "rotation") showToast("로테이션 모드로 배정됐어요");
   }
 
   function goToCheckin() {
@@ -876,7 +944,8 @@
   }
 
   buildInputs();
-  confirmBtn.addEventListener("click", confirmRoster);
+  confirmBtn.addEventListener("click", function () { confirmRoster(); });
+  document.getElementById("rotateRosterBtn").addEventListener("click", function () { confirmRoster("rotation"); });
   sampleBtn.addEventListener("click", fillSample);
   clearBtn.addEventListener("click", clearAll);
   document.getElementById("addInputBtn").addEventListener("click", handleAddInput);
