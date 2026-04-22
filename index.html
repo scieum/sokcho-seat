@@ -529,7 +529,9 @@
     1: "정승호",
     2: "김수민",
   };
-  const STORAGE_KEY = "sokcho_chair_v4";
+  const TABLE1_BLACKLIST = ["김지형", "정인우", "최중한"];
+  const TABLE1_ONE_OF = ["이준희", "조길행"];
+  const STORAGE_KEY = "sokcho_chair_v5";
 
   const VIEWS = ["landing", "setup", "checkin", "minigame"];
   const namesGrid     = document.getElementById("namesGrid");
@@ -651,6 +653,7 @@
       return roster.find(function (n) { return normalize(n) === key; });
     };
 
+    // 1) T1 고정 좌석 (이현민=1, 정승호=2, 김수민=3)
     const pinnedAtPosition = {};
     const pinnedKeys = new Set();
     Object.keys(TABLE1_PINS).forEach(function (pos) {
@@ -661,16 +664,44 @@
       }
     });
 
-    const others = fisherYates(
-      roster.filter(function (n) { return !pinnedKeys.has(normalize(n)); })
+    // 2) T1 블랙리스트 (김지형, 정인우, 최중한) — 다른 테이블로만 배정
+    const blacklisted = TABLE1_BLACKLIST.map(findInRoster).filter(Boolean);
+    const blacklistKeys = new Set(blacklisted.map(normalize));
+
+    // 3) (이준희, 조길행) 중 한 명 랜덤 선택 → T1 필수 포함
+    const pairPresent = fisherYates(TABLE1_ONE_OF.map(findInRoster).filter(Boolean));
+    const pairChosenForT1 = pairPresent[0] || null;
+    const pairUnchosen = pairPresent.slice(1);
+    const pairAllKeys = new Set(pairPresent.map(normalize));
+
+    // 4) T1 필러 후보 = 전체 - 고정 - 블랙리스트 - 쌍(두 명 모두)
+    const t1FillerCandidates = fisherYates(roster.filter(function (n) {
+      const k = normalize(n);
+      return !pinnedKeys.has(k) && !blacklistKeys.has(k) && !pairAllKeys.has(k);
+    }));
+
+    // 5) T1 뒷줄(좌석 4~6): [선택된 쌍] + 필러 N명, 섞어서 자리 랜덤
+    const t1Size = TABLES[0].size;
+    const backCount = t1Size - Object.keys(pinnedAtPosition).length;
+    const fillerNeeded = backCount - (pairChosenForT1 ? 1 : 0);
+    const t1Fillers = t1FillerCandidates.slice(0, fillerNeeded);
+    const restCandidates = t1FillerCandidates.slice(fillerNeeded);
+    const t1Back = fisherYates(
+      (pairChosenForT1 ? [pairChosenForT1] : []).concat(t1Fillers)
     );
 
-    const t1 = new Array(TABLES[0].size);
-    let oi = 0;
-    for (let i = 0; i < t1.length; i++) {
-      t1[i] = pinnedAtPosition[i] || others[oi++];
+    // 6) T1 최종 배열: 고정 자리 + 뒷줄
+    const t1 = new Array(t1Size);
+    let backIdx = 0;
+    for (let i = 0; i < t1Size; i++) {
+      t1[i] = pinnedAtPosition[i] || t1Back[backIdx++];
     }
-    const orderedPeople = t1.concat(others.slice(oi));
+
+    // 7) 나머지 테이블용 풀 = T1 필러 외 후보 + 블랙리스트 + 미선택 쌍, 섞기
+    const otherTablesPool = fisherYates(
+      restCandidates.concat(blacklisted).concat(pairUnchosen)
+    );
+    const orderedPeople = t1.concat(otherTablesPool);
 
     const seats = [];
     let cursor = 0;
