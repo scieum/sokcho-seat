@@ -371,29 +371,215 @@
   .landing-btn-sub { font-size: 13px; opacity: 0.85; font-weight: 500; }
   .landing-btn-secondary .landing-btn-sub { color: var(--text-tertiary); opacity: 1; }
 
-  /* Minigame placeholder */
-  .minigame-placeholder {
+  /* Minigame hub */
+  .minigame-hub {
     margin-top: 12px;
-    padding: 48px 24px;
-    background: var(--surface);
-    border: 1px dashed var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) {
+    .minigame-hub { grid-template-columns: 1fr; }
+  }
+  .mg-tile {
+    background: var(--white);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    text-align: center;
+    padding: 28px 18px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    min-height: 140px;
+    box-shadow: var(--shadow-deep);
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 200ms,
+                border-color 200ms;
   }
-  .mg-badge {
-    display: inline-block;
-    background: var(--mint-soft);
-    color: var(--mint-deep);
-    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
-    padding: 5px 12px; border-radius: 9999px;
-    margin-bottom: 14px;
+  .mg-tile:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sharp);
+    border-color: var(--mint);
   }
-  .mg-headline {
+  .mg-tile-title {
     font-family: "OkDandan", "Pretendard", sans-serif;
-    font-size: 24px; letter-spacing: 0.5px;
-    color: var(--charcoal); margin-bottom: 6px;
+    font-size: 20px; letter-spacing: 0.4px;
+    color: var(--charcoal);
   }
-  .mg-sub { color: var(--text-tertiary); font-size: 13px; }
+  .mg-tile-sub { font-size: 12px; color: var(--text-tertiary); text-align: center; }
+
+  /* Minigame common */
+  .mg-status {
+    text-align: center;
+    font-size: 14px; color: var(--text-secondary);
+    margin: 14px 0 10px;
+    min-height: 20px;
+  }
+  .mg-status.win {
+    color: var(--err-red);
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .mg-reset { margin: 8px auto 0; min-width: 160px; display: block; }
+
+  /* Croc teeth */
+  .croc-stage { padding: 20px 0 4px; }
+  .croc-mouth {
+    background: linear-gradient(180deg, #FFE4D6 0%, #FFCAB0 100%);
+    border-radius: 20px 20px 60px 60px / 20px 20px 80px 80px;
+    padding: 20px 28px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: inset 0 -6px 12px rgba(180, 80, 60, 0.15);
+  }
+  .croc-board {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 520px) {
+    .croc-board { grid-template-columns: repeat(4, 1fr); }
+  }
+  .croc-tooth {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 12px 12px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 150ms, background 150ms;
+  }
+  .croc-tooth:hover:not(:disabled) { transform: translateY(-2px); background: var(--surface); }
+  .croc-tooth:disabled { cursor: default; }
+  .croc-tooth.pressed {
+    background: var(--surface-subtle);
+    color: var(--text-disabled);
+    transform: translateY(4px);
+  }
+  .croc-tooth.trap {
+    background: var(--err-red) !important;
+    color: var(--white) !important;
+    transform: translateY(0) !important;
+    animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+
+  /* Pirate roulette */
+  .pirate-stage { padding: 20px 0 4px; }
+  .pirate-barrel {
+    position: relative;
+    width: 280px; height: 320px;
+    margin: 0 auto;
+    background: repeating-linear-gradient(
+      180deg,
+      #C4915C 0px, #C4915C 20px,
+      #A67846 20px, #A67846 24px
+    );
+    border-radius: 30% 30% 20% 20% / 12% 12% 8% 8%;
+    border: 3px solid #8B5E34;
+    box-shadow: inset 0 -12px 24px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  .pirate-head {
+    position: absolute;
+    top: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: #FFDDB5;
+    border: 3px solid #8B5E34;
+    display: flex; align-items: center; justify-content: center;
+    transition: top 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+  }
+  .pirate-head-inner {
+    width: 70px; height: 40px;
+    background:
+      radial-gradient(circle at 30% 40%, #212529 5px, transparent 6px),
+      radial-gradient(circle at 70% 40%, #212529 5px, transparent 6px);
+  }
+  .pirate-head.out { top: -80px; animation: pop-up 500ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes pop-up {
+    0%   { top: 20px; }
+    100% { top: -80px; }
+  }
+  .pirate-slots {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 220px;
+    z-index: 1;
+  }
+  .pirate-slot {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #8B5E34;
+    border-radius: 4px;
+    height: 28px;
+    cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 700;
+    color: var(--text-tertiary);
+    padding: 0;
+    transition: background 150ms, transform 150ms;
+  }
+  .pirate-slot:hover:not(:disabled) { background: var(--white); transform: translateY(-1px); }
+  .pirate-slot:disabled { cursor: default; }
+  .pirate-slot.used {
+    background: #8B5E34;
+    color: var(--white);
+  }
+  .pirate-slot.trigger {
+    background: var(--err-red) !important;
+    color: var(--white) !important;
+    animation: shake 400ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  /* Roulette wheel */
+  .wheel-stage { padding: 12px 0 4px; text-align: center; }
+  .wheel-wrap {
+    position: relative;
+    width: 320px; height: 320px;
+    margin: 0 auto 16px;
+  }
+  .wheel-pointer {
+    position: absolute;
+    top: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 24px solid var(--err-red);
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  #wheelCanvas {
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-sharp);
+    transition: transform 4200ms cubic-bezier(0.17, 0.67, 0.12, 1);
+  }
+  .wheel-input {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit; font-size: 14px; color: var(--charcoal);
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  .wheel-input:focus { outline: none; border: 2px solid var(--mint); padding: 9px 11px; }
 
   .toast {
     position: fixed; bottom: 24px; left: 50%;
@@ -495,20 +681,106 @@
       <div class="tables-wrap" id="tablesWrap"></div>
     </section>
 
-    <!-- MINIGAME VIEW -->
+    <!-- MINIGAME HUB VIEW -->
     <section class="view hidden" id="minigameView">
       <section class="card">
         <div class="card-top">
           <div>
             <h2>미니게임</h2>
-            <p class="sub">속고 젊은이 모임 전용 미니게임. 곧 공개돼요.</p>
+            <p class="sub">함께 즐길 수 있는 게임을 골라주세요</p>
           </div>
           <button class="btn-home" data-nav="landing">홈으로</button>
         </div>
-        <div class="minigame-placeholder">
-          <span class="mg-badge">COMING SOON</span>
-          <p class="mg-headline">준비 중입니다</p>
-          <p class="mg-sub">게임 규칙이 정해지면 여기서 바로 시작할 수 있어요</p>
+        <div class="minigame-hub">
+          <button class="mg-tile" data-game="croc">
+            <span class="mg-tile-title">악어 이빨</span>
+            <span class="mg-tile-sub">이빨 하나가 함정! 조심히 눌러요</span>
+          </button>
+          <button class="mg-tile" data-game="pirate">
+            <span class="mg-tile-title">해적 룰렛</span>
+            <span class="mg-tile-sub">해적이 튀어나오는 칼자리를 피하세요</span>
+          </button>
+          <button class="mg-tile" data-game="wheel">
+            <span class="mg-tile-title">룰렛 돌리기</span>
+            <span class="mg-tile-sub">돌림판 한 방! 당첨자를 뽑아요</span>
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <!-- CROC VIEW -->
+    <section class="view hidden" id="crocView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>악어 이빨</h2>
+            <p class="sub">순서대로 이빨을 한 개씩 눌러보세요. 숨겨진 함정 이빨을 누르면 악어가 물어요!</p>
+          </div>
+          <div class="card-top-actions">
+            <button class="btn-home" data-nav="minigame">게임 선택</button>
+            <button class="btn-home" data-nav="landing">홈으로</button>
+          </div>
+        </div>
+        <div class="croc-stage">
+          <div class="croc-mouth">
+            <div class="croc-board" id="crocBoard"></div>
+          </div>
+          <p class="mg-status" id="crocStatus">이빨 하나를 누르세요</p>
+          <button class="btn btn-primary mg-reset" id="crocResetBtn">새 게임</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- PIRATE VIEW -->
+    <section class="view hidden" id="pirateView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>해적 룰렛</h2>
+            <p class="sub">칼을 하나씩 꽂아보세요. 잘못된 칼자리를 누르면 해적이 튀어나와요!</p>
+          </div>
+          <div class="card-top-actions">
+            <button class="btn-home" data-nav="minigame">게임 선택</button>
+            <button class="btn-home" data-nav="landing">홈으로</button>
+          </div>
+        </div>
+        <div class="pirate-stage">
+          <div class="pirate-barrel">
+            <div class="pirate-head" id="pirateHead">
+              <div class="pirate-head-inner"></div>
+            </div>
+            <div class="pirate-slots" id="pirateSlots"></div>
+          </div>
+          <p class="mg-status" id="pirateStatus">칼자리를 눌러 칼을 꽂아요</p>
+          <button class="btn btn-primary mg-reset" id="pirateResetBtn">새 게임</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- WHEEL VIEW -->
+    <section class="view hidden" id="wheelView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>룰렛 돌리기</h2>
+            <p class="sub">항목을 쉼표(,)로 구분해 입력하고 돌림판을 돌려요</p>
+          </div>
+          <div class="card-top-actions">
+            <button class="btn-home" data-nav="minigame">게임 선택</button>
+            <button class="btn-home" data-nav="landing">홈으로</button>
+          </div>
+        </div>
+        <div class="wheel-stage">
+          <div class="wheel-wrap">
+            <div class="wheel-pointer"></div>
+            <canvas id="wheelCanvas" width="320" height="320"></canvas>
+          </div>
+          <p class="mg-status" id="wheelStatus">항목을 입력하고 돌려주세요</p>
+          <textarea class="wheel-input" id="wheelInput" rows="2" placeholder="예: 김수민, 이규재, 박가은, 정승호"></textarea>
+          <div class="actions">
+            <button class="btn btn-primary" id="wheelSpinBtn">돌리기</button>
+            <button class="btn btn-ghost" id="wheelLoadRosterBtn">참석자 명단 불러오기</button>
+          </div>
         </div>
       </section>
     </section>
@@ -544,7 +816,7 @@
 
   const STORAGE_KEY = "sokcho_chair_v6";
 
-  const VIEWS = ["landing", "setup", "checkin", "minigame"];
+  const VIEWS = ["landing", "setup", "checkin", "minigame", "croc", "pirate", "wheel"];
   const namesGrid     = document.getElementById("namesGrid");
   const confirmBtn    = document.getElementById("confirmRosterBtn");
   const sampleBtn     = document.getElementById("sampleBtn");
@@ -565,6 +837,9 @@
     setup:    "참석자 명단 등록",
     checkin:  "오늘 내 자리는?",
     minigame: "미니게임",
+    croc:     "악어 이빨",
+    pirate:   "해적 룰렛",
+    wheel:    "룰렛 돌리기",
   };
 
   function showView(name) {
@@ -819,6 +1094,203 @@
   function goToSetup() { showView("setup"); }
   function goToLanding() { showView("landing"); }
   function goToMinigame() { showView("minigame"); }
+  function goToCroc() { showView("croc"); crocInit(); }
+  function goToPirate() { showView("pirate"); pirateInit(); }
+  function goToWheel() { showView("wheel"); wheelInit(); }
+
+  /* ========== 악어 이빨 ========== */
+  const CROC_TEETH_COUNT = 12;
+  let crocTrap = -1;
+  let crocPressed = new Set();
+  let crocOver = false;
+
+  function crocInit() {
+    crocTrap = Math.floor(Math.random() * CROC_TEETH_COUNT);
+    crocPressed = new Set();
+    crocOver = false;
+    document.getElementById("crocStatus").className = "mg-status";
+    document.getElementById("crocStatus").textContent = "이빨 하나를 누르세요";
+    crocRender();
+  }
+
+  function crocRender() {
+    const board = document.getElementById("crocBoard");
+    board.innerHTML = "";
+    for (let i = 0; i < CROC_TEETH_COUNT; i++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "croc-tooth" + (crocPressed.has(i) ? " pressed" : "");
+      if (crocOver && i === crocTrap) btn.classList.add("trap");
+      btn.textContent = crocPressed.has(i) ? "" : String(i + 1);
+      btn.disabled = crocPressed.has(i) || crocOver;
+      btn.addEventListener("click", function () { crocPress(i); });
+      board.appendChild(btn);
+    }
+  }
+
+  function crocPress(i) {
+    if (crocOver || crocPressed.has(i)) return;
+    crocPressed.add(i);
+    if (i === crocTrap) {
+      crocOver = true;
+      const status = document.getElementById("crocStatus");
+      status.className = "mg-status win";
+      status.textContent = "당첨! 악어가 물었어요 🦷".replace(/[^\w가-힣 !?.,!]/g, "");
+      status.textContent = "당첨! 악어가 물었어요";
+    } else {
+      document.getElementById("crocStatus").textContent =
+        "안전! 다음 사람 차례 (" + crocPressed.size + "/" + CROC_TEETH_COUNT + ")";
+    }
+    crocRender();
+  }
+
+  /* ========== 해적 룰렛 ========== */
+  const PIRATE_SLOT_COUNT = 16;
+  let pirateTrigger = -1;
+  let pirateUsed = new Set();
+  let pirateOver = false;
+
+  function pirateInit() {
+    pirateTrigger = Math.floor(Math.random() * PIRATE_SLOT_COUNT);
+    pirateUsed = new Set();
+    pirateOver = false;
+    document.getElementById("pirateStatus").className = "mg-status";
+    document.getElementById("pirateStatus").textContent = "칼자리를 눌러 칼을 꽂아요";
+    document.getElementById("pirateHead").classList.remove("out");
+    pirateRender();
+  }
+
+  function pirateRender() {
+    const slots = document.getElementById("pirateSlots");
+    slots.innerHTML = "";
+    for (let i = 0; i < PIRATE_SLOT_COUNT; i++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pirate-slot" + (pirateUsed.has(i) ? " used" : "");
+      if (pirateOver && i === pirateTrigger) btn.classList.add("trigger");
+      btn.textContent = pirateUsed.has(i) ? "✕" : String(i + 1);
+      btn.disabled = pirateUsed.has(i) || pirateOver;
+      btn.addEventListener("click", function () { piratePress(i); });
+      slots.appendChild(btn);
+    }
+  }
+
+  function piratePress(i) {
+    if (pirateOver || pirateUsed.has(i)) return;
+    pirateUsed.add(i);
+    if (i === pirateTrigger) {
+      pirateOver = true;
+      document.getElementById("pirateHead").classList.add("out");
+      const status = document.getElementById("pirateStatus");
+      status.className = "mg-status win";
+      status.textContent = "당첨! 해적이 튀어나왔어요";
+    } else {
+      document.getElementById("pirateStatus").textContent =
+        "안전! 다음 사람 차례 (" + pirateUsed.size + "/" + PIRATE_SLOT_COUNT + ")";
+    }
+    pirateRender();
+  }
+
+  /* ========== 룰렛 돌리기 ========== */
+  let wheelRotation = 0;
+  let wheelSpinning = false;
+  let wheelItems = [];
+  const WHEEL_COLORS = ["#2AC1BC", "#12B886", "#FFB347", "#74C0FC", "#FF6B6B", "#A29BFE", "#FD79A8", "#6EC6A2"];
+
+  function wheelInit() {
+    wheelRotation = 0;
+    wheelSpinning = false;
+    const input = document.getElementById("wheelInput");
+    if (!input.value.trim()) {
+      input.value = "당첨, 꽝, 한 잔 더, 통과, 노래, 춤";
+    }
+    parseWheelItems();
+    drawWheel();
+    document.getElementById("wheelStatus").className = "mg-status";
+    document.getElementById("wheelStatus").textContent = "항목을 입력하고 돌려주세요";
+  }
+
+  function parseWheelItems() {
+    const raw = document.getElementById("wheelInput").value || "";
+    wheelItems = raw.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    if (wheelItems.length < 2) wheelItems = wheelItems.concat(["(항목 추가 필요)"]);
+  }
+
+  function drawWheel() {
+    const canvas = document.getElementById("wheelCanvas");
+    const ctx = canvas.getContext("2d");
+    const size = canvas.width;
+    const r = size / 2;
+    ctx.clearRect(0, 0, size, size);
+    const n = wheelItems.length;
+    const arc = (Math.PI * 2) / n;
+    for (let i = 0; i < n; i++) {
+      const start = i * arc - Math.PI / 2;
+      const end = start + arc;
+      ctx.beginPath();
+      ctx.moveTo(r, r);
+      ctx.arc(r, r, r - 2, start, end);
+      ctx.closePath();
+      ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Text
+      ctx.save();
+      ctx.translate(r, r);
+      ctx.rotate(start + arc / 2);
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#fff";
+      ctx.font = "700 14px Pretendard, sans-serif";
+      const label = wheelItems[i].length > 10 ? wheelItems[i].slice(0, 10) + "…" : wheelItems[i];
+      ctx.fillText(label, r - 14, 5);
+      ctx.restore();
+    }
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(r, r, 22, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+    ctx.strokeStyle = "#DEE2E6";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function spinWheel() {
+    if (wheelSpinning) return;
+    parseWheelItems();
+    if (wheelItems.length < 2) {
+      showToast("항목을 2개 이상 입력해주세요");
+      return;
+    }
+    drawWheel();
+    wheelSpinning = true;
+    const n = wheelItems.length;
+    const arcDeg = 360 / n;
+    const winnerIdx = Math.floor(Math.random() * n);
+    const targetDeg = 360 * 6 + (360 - (winnerIdx * arcDeg + arcDeg / 2));
+    wheelRotation += targetDeg;
+    const canvas = document.getElementById("wheelCanvas");
+    canvas.style.transform = "rotate(" + wheelRotation + "deg)";
+    document.getElementById("wheelStatus").className = "mg-status";
+    document.getElementById("wheelStatus").textContent = "돌아가는 중...";
+    setTimeout(function () {
+      wheelSpinning = false;
+      const status = document.getElementById("wheelStatus");
+      status.className = "mg-status win";
+      status.textContent = "결과: " + wheelItems[winnerIdx];
+    }, 4300);
+  }
+
+  function loadRosterToWheel() {
+    const names = (state && state.roster && state.roster.length) ? state.roster : DEFAULT_ROSTER;
+    document.getElementById("wheelInput").value = names.join(", ");
+    parseWheelItems();
+    drawWheel();
+    showToast("참석자 " + names.length + "명을 불러왔어요");
+  }
 
   function handleSeatClick() {
     if (state && state.assignment && state.roster && state.roster.length === TOTAL) {
@@ -962,6 +1434,24 @@
   goSeatBtn.addEventListener("click", handleSeatClick);
   goMinigameBtn.addEventListener("click", goToMinigame);
   document.getElementById("gotoSetupBtn").addEventListener("click", goToSetup);
+
+  document.querySelectorAll(".mg-tile").forEach(function (tile) {
+    tile.addEventListener("click", function () {
+      const g = tile.getAttribute("data-game");
+      if (g === "croc") goToCroc();
+      else if (g === "pirate") goToPirate();
+      else if (g === "wheel") goToWheel();
+    });
+  });
+  document.getElementById("crocResetBtn").addEventListener("click", crocInit);
+  document.getElementById("pirateResetBtn").addEventListener("click", pirateInit);
+  document.getElementById("wheelSpinBtn").addEventListener("click", spinWheel);
+  document.getElementById("wheelLoadRosterBtn").addEventListener("click", loadRosterToWheel);
+  document.getElementById("wheelInput").addEventListener("input", function () {
+    if (wheelSpinning) return;
+    parseWheelItems();
+    drawWheel();
+  });
   document.querySelectorAll('[data-nav="landing"]').forEach(function (el) {
     el.addEventListener("click", goToLanding);
   });
