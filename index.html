@@ -122,8 +122,14 @@
   /* Setup: roster grid */
   .names-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
+  }
+  @media (max-width: 720px) {
+    .names-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .names-grid { grid-template-columns: repeat(2, 1fr); }
   }
   .name-input-wrap { position: relative; }
   .name-input-wrap .idx {
