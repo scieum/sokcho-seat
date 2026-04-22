@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026 제1회 속고 젊은이 모임 · 자리 배정</title>
+<style>
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2'); font-weight: 100; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2'); font-weight: 200; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+  @font-face { font-family: 'Pretendard'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2'); font-weight: 900; font-display: swap; }
+  @font-face { font-family: 'OkDandan'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2508-2@1.0/OkDanDan-Bold.woff2') format('woff2'); font-weight: normal; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'KkuBulLim'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/BMkkubulimTTF-Regular.woff2') format('woff2'); font-weight: normal; font-display: swap; }
+
+  :root {
+    --mint: #2AC1BC;
+    --mint-deep: #20A8A4;
+    --mint-soft: rgba(42, 193, 188, 0.08);
+    --white: #ffffff;
+    --charcoal: #212529;
+    --text-secondary: #495057;
+    --text-tertiary: #868E96;
+    --text-disabled: #ADB5BD;
+    --border: #DEE2E6;
+    --surface: #F8F9FA;
+    --surface-subtle: #F1F3F5;
+    --shadow-deep: 0px 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-sharp: 0px 4px 12px rgba(0, 0, 0, 0.10);
+    --shadow-outlined: 0px 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--surface);
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .app-shell { max-width: 1240px; margin: 0 auto; padding: 14px 16px 24px; }
+
+  header.site-header { padding: 10px 0 14px; text-align: center; }
+  header.site-header .eyebrow {
+    display: inline-block;
+    background: var(--mint-soft);
+    color: var(--mint-deep);
+    font-family: "KkuBulLim", "Pretendard", sans-serif;
+    font-size: 14px; font-weight: 400;
+    letter-spacing: 0.3px;
+    padding: 5px 12px; border-radius: 9999px;
+    margin-bottom: 6px;
+  }
+  header.site-header h1 {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 30px; line-height: 1.15;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+
+  .hidden { display: none !important; }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow-deep);
+    margin-bottom: 12px;
+  }
+  .card h2 {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 18px; font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+  }
+  .card .sub { font-size: 12px; color: var(--text-tertiary); margin-bottom: 10px; }
+
+  .card-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 12px;
+  }
+  .btn-home {
+    background: var(--white);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 9999px;
+    cursor: pointer; flex-shrink: 0;
+    transition: background-color 150ms, border-color 150ms, color 150ms;
+  }
+  .btn-home:hover {
+    background: var(--mint-soft);
+    color: var(--mint-deep);
+    border-color: var(--mint);
+  }
+
+  /* Setup: roster grid */
+  .names-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .name-input-wrap { position: relative; }
+  .name-input-wrap .idx {
+    position: absolute; top: 50%; left: 12px;
+    transform: translateY(-50%);
+    font-size: 12px; font-weight: 700;
+    color: var(--mint); pointer-events: none;
+  }
+  .name-input {
+    width: 100%; height: 44px;
+    padding: 0 12px 0 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px; color: var(--charcoal);
+    background: var(--white); font-family: inherit;
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .name-input::placeholder { color: var(--text-disabled); }
+  .name-input:focus {
+    outline: none; border: 2px solid var(--mint); padding: 0 11px 0 35px;
+  }
+
+  .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+
+  .btn {
+    min-height: 48px; padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px; font-weight: 700; font-family: inherit;
+    cursor: pointer; border: none;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms;
+  }
+  .btn-primary { background: var(--mint); color: var(--white); flex: 1; min-width: 180px; }
+  .btn-primary:hover { background: var(--mint-deep); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: var(--border); color: var(--text-disabled); cursor: not-allowed; transform: none; }
+  .btn-ghost { background: transparent; color: var(--mint); border: 1px solid var(--mint); }
+  .btn-ghost:hover { background: var(--mint-soft); }
+  .btn-neutral { background: var(--surface); color: var(--charcoal); }
+  .btn-neutral:hover { background: var(--surface-subtle); }
+  .btn-small { min-height: 36px; padding: 8px 16px; font-size: 13px; }
+
+  /* Check-in row */
+  .checkin-row { display: flex; gap: 10px; margin-top: 2px; flex-wrap: wrap; }
+  .checkin-input {
+    flex: 1; min-width: 200px;
+    height: 44px; padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px; color: var(--charcoal);
+    background: var(--white); font-family: inherit;
+    transition: border-color 150ms;
+  }
+  .checkin-input:focus { outline: none; border: 2px solid var(--mint); padding: 0 13px; }
+  .checkin-row .btn { min-width: 128px; min-height: 44px; flex: 0 0 auto; padding: 10px 18px; }
+
+  .progress-wrap { margin-top: 12px; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .progress-label strong { color: var(--mint-deep); font-weight: 700; }
+  .progress-track {
+    height: 8px; background: var(--surface-subtle);
+    border-radius: 9999px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: var(--mint); border-radius: 9999px;
+    transition: width 400ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  /* Tables visual layout */
+  .tables-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 0 0 8px;
+  }
+  .banquet-table {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 10px;
+    box-shadow: var(--shadow-deep);
+  }
+  .banquet-table h3 {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 16px; font-weight: 400;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .count-pill {
+    background: var(--surface-subtle);
+    color: var(--text-secondary);
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 9999px;
+  }
+  .seats-row {
+    display: flex; justify-content: center;
+    gap: 6px; flex-wrap: wrap;
+  }
+  .table-surface {
+    margin: 6px auto; max-width: 220px;
+    height: 32px;
+    background: var(--surface-subtle);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--text-tertiary);
+    letter-spacing: 2.5px; font-weight: 600;
+  }
+  .seat {
+    width: 58px; height: 58px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 3px;
+    transition: background-color 250ms, border-color 250ms, transform 200ms;
+  }
+  .seat .seat-num {
+    font-size: 10px; font-weight: 700;
+    color: var(--mint-deep);
+    margin-bottom: 2px;
+  }
+  .seat .seat-name {
+    font-size: 12px; font-weight: 600;
+    color: var(--charcoal);
+    text-align: center; line-height: 1.15;
+    max-width: 52px; overflow: hidden;
+    white-space: nowrap; text-overflow: ellipsis;
+  }
+  .seat.masked { background: var(--surface); }
+  .seat.masked .seat-name {
+    color: var(--text-disabled);
+    letter-spacing: 1.5px;
+  }
+  .seat.revealed {
+    background: var(--mint-soft);
+    border: 2px solid var(--mint);
+    padding: 2px;
+  }
+  .seat.revealed .seat-name { color: var(--mint-deep); }
+
+  @media (max-width: 900px) {
+    .tables-wrap { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .tables-wrap { grid-template-columns: 1fr; }
+  }
+
+  @keyframes seatPulse {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(42, 193, 188, 0.45); }
+    50%  { transform: scale(1.10); box-shadow: 0 0 0 14px rgba(42, 193, 188, 0); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(42, 193, 188, 0); }
+  }
+  .seat.just-revealed { animation: seatPulse 650ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  .celebration {
+    background: var(--mint-soft);
+    border: 1px solid var(--mint);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .celebration .eyebrow-mint {
+    display: inline-block;
+    background: var(--mint); color: white;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.3px;
+    padding: 5px 12px; border-radius: 9999px;
+    margin-bottom: 10px;
+  }
+  .celebration h2 {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 30px; font-weight: 400;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .celebration p { color: var(--text-secondary); font-size: 14px; }
+
+  /* Landing */
+  #landingView {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .landing-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (max-width: 480px) {
+    .landing-buttons { grid-template-columns: 1fr; }
+  }
+  .landing-btn {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 8px;
+    min-height: 180px;
+    padding: 32px 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: var(--shadow-deep);
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .landing-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-sharp); }
+  .landing-btn:active { transform: translateY(0); }
+  .landing-btn-primary {
+    background: var(--mint); color: var(--white);
+  }
+  .landing-btn-secondary {
+    background: var(--white); color: var(--charcoal);
+    border: 1px solid var(--border);
+  }
+  .landing-btn-title {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 24px; letter-spacing: 0.5px;
+  }
+  .landing-btn-sub { font-size: 13px; opacity: 0.85; font-weight: 500; }
+  .landing-btn-secondary .landing-btn-sub { color: var(--text-tertiary); opacity: 1; }
+
+  /* Minigame placeholder */
+  .minigame-placeholder {
+    margin-top: 12px;
+    padding: 48px 24px;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .mg-badge {
+    display: inline-block;
+    background: var(--mint-soft);
+    color: var(--mint-deep);
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    padding: 5px 12px; border-radius: 9999px;
+    margin-bottom: 14px;
+  }
+  .mg-headline {
+    font-family: "OkDandan", "Pretendard", sans-serif;
+    font-size: 24px; letter-spacing: 0.5px;
+    color: var(--charcoal); margin-bottom: 6px;
+  }
+  .mg-sub { color: var(--text-tertiary); font-size: 13px; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--charcoal); color: var(--white);
+    font-size: 14px; padding: 12px 20px;
+    border-radius: 8px; opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms cubic-bezier(0, 0, 0.2, 1),
+                transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    box-shadow: var(--shadow-outlined); z-index: 1000;
+    max-width: calc(100% - 32px); text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 480px) {
+    header.site-header h1 { font-size: 28px; }
+    .card { padding: 16px; }
+    .names-grid { grid-template-columns: repeat(2, 1fr); }
+    .seat { width: 64px; height: 64px; }
+    .seat .seat-name { font-size: 12px; max-width: 56px; }
+  }
+</style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <span class="eyebrow">속초고등학교 · 2026 제1회 속고 젊은이 모임</span>
+      <h1 id="heroTitle">오늘 내 자리는?</h1>
+    </header>
+
+    <!-- LANDING VIEW -->
+    <section class="view" id="landingView">
+      <div class="landing-buttons">
+        <button class="landing-btn landing-btn-primary" id="goSeatBtn">
+          <span class="landing-btn-title">오늘 내 자리는?</span>
+          <span class="landing-btn-sub">내 자리 확인하기</span>
+        </button>
+        <button class="landing-btn landing-btn-secondary" id="goMinigameBtn">
+          <span class="landing-btn-title">미니게임</span>
+          <span class="landing-btn-sub">함께 즐겨요</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SETUP VIEW -->
+    <section class="view hidden" id="setupView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>참석자 명단 등록</h2>
+            <p class="sub">총 22명 · 4개 테이블 (6 / 5 / 6 / 5). 명단을 확정하면 자리는 랜덤으로 배정돼요.</p>
+          </div>
+          <button class="btn-home" data-nav="landing">홈으로</button>
+        </div>
+        <div class="names-grid" id="namesGrid"></div>
+        <div class="actions">
+          <button class="btn btn-primary" id="confirmRosterBtn">명단 확정하고 자리 배정</button>
+          <button class="btn btn-ghost" id="sampleBtn">기본 명단 불러오기</button>
+          <button class="btn btn-neutral" id="clearBtn">전체 지우기</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- CHECK-IN VIEW -->
+    <section class="view hidden" id="checkinView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>내 자리 확인하기</h2>
+            <p class="sub">이름을 입력하면 내 자리만 공개돼요. 다른 사람 자리는 모두가 확인할 때까지 가려져 있어요.</p>
+          </div>
+          <button class="btn-home" data-nav="landing">홈으로</button>
+        </div>
+        <div class="checkin-row">
+          <input class="checkin-input" id="checkinInput" placeholder="이름을 입력하세요" maxlength="20" autocomplete="off" />
+          <button class="btn btn-primary" id="checkinBtn">내 자리 확인</button>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span>확인 완료</span>
+            <strong id="progressText">0 / 22</strong>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </section>
+
+      <section class="celebration hidden" id="celebration">
+        <span class="eyebrow-mint">모두 자리에 앉았어요</span>
+        <h2>오늘의 자리 배치 완료</h2>
+        <p>즐거운 모임 되세요</p>
+      </section>
+
+      <div class="tables-wrap" id="tablesWrap"></div>
+    </section>
+
+    <!-- MINIGAME VIEW -->
+    <section class="view hidden" id="minigameView">
+      <section class="card">
+        <div class="card-top">
+          <div>
+            <h2>미니게임</h2>
+            <p class="sub">속고 젊은이 모임 전용 미니게임. 곧 공개돼요.</p>
+          </div>
+          <button class="btn-home" data-nav="landing">홈으로</button>
+        </div>
+        <div class="minigame-placeholder">
+          <span class="mg-badge">COMING SOON</span>
+          <p class="mg-headline">준비 중입니다</p>
+          <p class="mg-sub">게임 규칙이 정해지면 여기서 바로 시작할 수 있어요</p>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const TOTAL = 22;
+  const TABLES = [
+    { id: 1, name: "1번 테이블", size: 6, topCount: 3 },
+    { id: 2, name: "2번 테이블", size: 5, topCount: 3 },
+    { id: 3, name: "3번 테이블", size: 6, topCount: 3 },
+    { id: 4, name: "4번 테이블", size: 5, topCount: 3 },
+  ];
+  const DEFAULT_ROSTER = [
+    "김수민", "이규재", "김지형", "강은성", "박가은",
+    "이현민", "김하린", "최민후", "최중한", "정승호",
+    "김하연", "이준희", "장지연", "정인우", "유상지",
+    "유희영", "고영제", "양혜연", "강하은", "전수빈",
+    "차동희", "조길행"
+  ];
+  const TABLE1_CENTER = "정승호";
+  const TABLE1_FLANKERS = ["김하린", "김수민"];
+  const STORAGE_KEY = "sokcho_chair_v3";
+
+  const VIEWS = ["landing", "setup", "checkin", "minigame"];
+  const namesGrid     = document.getElementById("namesGrid");
+  const confirmBtn    = document.getElementById("confirmRosterBtn");
+  const sampleBtn     = document.getElementById("sampleBtn");
+  const clearBtn      = document.getElementById("clearBtn");
+  const checkinInput  = document.getElementById("checkinInput");
+  const checkinBtn    = document.getElementById("checkinBtn");
+  const progressText  = document.getElementById("progressText");
+  const progressFill  = document.getElementById("progressFill");
+  const tablesWrap    = document.getElementById("tablesWrap");
+  const celebration   = document.getElementById("celebration");
+  const heroTitle     = document.getElementById("heroTitle");
+  const goSeatBtn     = document.getElementById("goSeatBtn");
+  const goMinigameBtn = document.getElementById("goMinigameBtn");
+  const toastEl       = document.getElementById("toast");
+
+  const HERO_TITLES = {
+    landing:  "오늘 내 자리는?",
+    setup:    "참석자 명단 등록",
+    checkin:  "오늘 내 자리는?",
+    minigame: "미니게임",
+  };
+
+  function showView(name) {
+    VIEWS.forEach(function (v) {
+      const el = document.getElementById(v + "View");
+      if (el) el.classList.toggle("hidden", v !== name);
+    });
+    if (heroTitle && HERO_TITLES[name]) heroTitle.textContent = HERO_TITLES[name];
+    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  }
+
+  let state = null;
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
+  }
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function normalize(s) { return s.replace(/\s+/g, "").trim(); }
+
+  function buildInputs() {
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= TOTAL; i++) {
+      const wrap = document.createElement("div");
+      wrap.className = "name-input-wrap";
+      wrap.innerHTML =
+        '<span class="idx">' + String(i).padStart(2, "0") + '</span>' +
+        '<input class="name-input" type="text" placeholder="이름" maxlength="12" />';
+      frag.appendChild(wrap);
+    }
+    namesGrid.appendChild(frag);
+  }
+
+  function getRosterInputs() {
+    return Array.from(document.querySelectorAll(".name-input"))
+      .map(function (el) { return el.value.trim(); })
+      .filter(function (v) { return v.length > 0; });
+  }
+
+  function fisherYates(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function buildAssignment(roster) {
+    const findInRoster = function (target) {
+      const key = normalize(target);
+      return roster.find(function (n) { return normalize(n) === key; });
+    };
+    const center = findInRoster(TABLE1_CENTER);
+    const flankerList = TABLE1_FLANKERS.map(findInRoster).filter(Boolean);
+
+    const pinnedKeys = new Set(
+      [center].concat(flankerList).filter(Boolean).map(normalize)
+    );
+    const others = fisherYates(
+      roster.filter(function (n) { return !pinnedKeys.has(normalize(n)); })
+    );
+
+    const shuffledFlankers = fisherYates(flankerList);
+    const t1 = new Array(TABLES[0].size);
+    let oi = 0;
+    t1[0] = shuffledFlankers[0] || others[oi++];
+    t1[1] = center              || others[oi++];
+    t1[2] = shuffledFlankers[1] || others[oi++];
+    for (let i = 3; i < t1.length; i++) t1[i] = others[oi++];
+
+    const orderedPeople = t1.concat(others.slice(oi));
+
+    const seats = [];
+    let cursor = 0;
+    let seatNum = 1;
+    TABLES.forEach(function (t) {
+      for (let i = 0; i < t.size; i++) {
+        seats.push({
+          seat: seatNum++,
+          tableId: t.id,
+          positionInTable: i,
+          name: orderedPeople[cursor++],
+        });
+      }
+    });
+    return seats;
+  }
+
+  function confirmRoster() {
+    const names = getRosterInputs();
+    if (names.length !== TOTAL) {
+      showToast("22명 이름을 모두 입력해주세요 (현재 " + names.length + "명)");
+      return;
+    }
+    const normalizedAll = names.map(normalize);
+    if (new Set(normalizedAll).size !== names.length) {
+      showToast("같은 이름이 중복됐어요. 구분할 수 있게 수정해주세요");
+      return;
+    }
+    state = { roster: names, assignment: buildAssignment(names), revealed: [] };
+    saveState();
+    goToCheckin();
+  }
+
+  function goToCheckin() {
+    showView("checkin");
+    renderTables();
+    updateProgress();
+    setTimeout(function () { checkinInput.focus(); }, 100);
+  }
+
+  function goToSetup() { showView("setup"); }
+  function goToLanding() { showView("landing"); }
+  function goToMinigame() { showView("minigame"); }
+
+  function handleSeatClick() {
+    if (state && state.assignment && state.roster && state.roster.length === TOTAL) {
+      goToCheckin();
+    } else {
+      goToSetup();
+    }
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+
+  function seatHtml(s, revealedSet, justRevealedSeat) {
+    const isRevealed = revealedSet.has(normalize(s.name));
+    const classes = ["seat", isRevealed ? "revealed" : "masked"];
+    if (s.seat === justRevealedSeat) classes.push("just-revealed");
+    const nameDisplay = isRevealed ? escapeHtml(s.name) : "○ ○ ○";
+    return (
+      '<div class="' + classes.join(" ") + '" data-seat="' + s.seat + '">' +
+        '<span class="seat-num">' + s.seat + '번</span>' +
+        '<span class="seat-name">' + nameDisplay + '</span>' +
+      '</div>'
+    );
+  }
+
+  function renderTables(justRevealedSeat) {
+    tablesWrap.innerHTML = "";
+    const revealedSet = new Set((state.revealed || []).map(normalize));
+
+    TABLES.forEach(function (t) {
+      const seatsForTable = state.assignment
+        .filter(function (s) { return s.tableId === t.id; })
+        .sort(function (a, b) { return a.positionInTable - b.positionInTable; });
+      const topSeats = seatsForTable.slice(0, t.topCount);
+      const bottomSeats = seatsForTable.slice(t.topCount);
+
+      const card = document.createElement("article");
+      card.className = "banquet-table";
+      card.innerHTML =
+        '<h3><span>' + t.name + '</span><span class="count-pill">' + t.size + '석</span></h3>' +
+        '<div class="seats-row">' + topSeats.map(function (s) { return seatHtml(s, revealedSet, justRevealedSeat); }).join("") + '</div>' +
+        '<div class="table-surface">TABLE</div>' +
+        '<div class="seats-row">' + bottomSeats.map(function (s) { return seatHtml(s, revealedSet, justRevealedSeat); }).join("") + '</div>';
+      tablesWrap.appendChild(card);
+    });
+  }
+
+  function updateProgress() {
+    const count = state.revealed.length;
+    progressText.textContent = count + " / " + TOTAL;
+    progressFill.style.width = (count / TOTAL * 100) + "%";
+    if (count >= TOTAL) {
+      celebration.classList.remove("hidden");
+      checkinInput.disabled = true;
+      checkinBtn.disabled = true;
+    } else {
+      celebration.classList.add("hidden");
+      checkinInput.disabled = false;
+      checkinBtn.disabled = false;
+    }
+  }
+
+  function handleCheckin() {
+    const raw = checkinInput.value.trim();
+    if (!raw) { showToast("이름을 입력해주세요"); return; }
+
+    const key = normalize(raw);
+    const match = state.assignment.find(function (s) { return normalize(s.name) === key; });
+    if (!match) {
+      showToast("명단에서 이름을 찾을 수 없어요");
+      return;
+    }
+    const already = state.revealed.some(function (n) { return normalize(n) === key; });
+    if (already) {
+      showToast(match.name + "님 자리는 이미 확인됐어요 (" + match.seat + "번)");
+      highlightSeat(match.seat);
+      checkinInput.value = "";
+      return;
+    }
+    state.revealed.push(match.name);
+    saveState();
+    renderTables(match.seat);
+    updateProgress();
+    highlightSeat(match.seat);
+    checkinInput.value = "";
+    const tableName = TABLES.find(function (t) { return t.id === match.tableId; }).name;
+    showToast(match.name + "님은 " + tableName + " " + match.seat + "번 자리예요");
+  }
+
+  function highlightSeat(seatNum) {
+    setTimeout(function () {
+      const el = tablesWrap.querySelector('[data-seat="' + seatNum + '"]');
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+  }
+
+  function fillSample() {
+    document.querySelectorAll(".name-input").forEach(function (el, i) {
+      el.value = DEFAULT_ROSTER[i] || "";
+    });
+  }
+
+  function clearAll() {
+    document.querySelectorAll(".name-input").forEach(function (el) { el.value = ""; });
+  }
+
+  function resetAll() {
+    if (!confirm("명단과 자리 배정을 모두 초기화할까요? 확인한 내역도 사라져요.")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = null;
+    document.querySelectorAll(".name-input").forEach(function (el) { el.value = ""; });
+    goToSetup();
+  }
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function () { toastEl.classList.remove("show"); }, 2800);
+  }
+
+  buildInputs();
+  confirmBtn.addEventListener("click", confirmRoster);
+  sampleBtn.addEventListener("click", fillSample);
+  clearBtn.addEventListener("click", clearAll);
+  checkinBtn.addEventListener("click", handleCheckin);
+  checkinInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") handleCheckin();
+  });
+  goSeatBtn.addEventListener("click", handleSeatClick);
+  goMinigameBtn.addEventListener("click", goToMinigame);
+  document.querySelectorAll('[data-nav="landing"]').forEach(function (el) {
+    el.addEventListener("click", goToLanding);
+  });
+
+  state = loadState();
+  if (!(state && state.assignment && state.roster && state.roster.length === TOTAL)) {
+    fillSample();
+  }
+  goToLanding();
+</script>
+</body>
+</html>
