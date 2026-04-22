@@ -65,19 +65,19 @@
     transition: font-size 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   body[data-view="landing"] header.site-header {
-    padding: 72px 0 20px;
+    padding: 72px 0 12px;
   }
   body[data-view="landing"] header.site-header .eyebrow {
-    font-size: 16px;
-    padding: 6px 14px;
+    font-size: 17px;
+    padding: 7px 18px;
     margin-bottom: 14px;
   }
   body[data-view="landing"] header.site-header h1 {
-    font-size: 54px;
-    line-height: 1.1;
+    font-size: 48px;
+    line-height: 1.2;
   }
   @media (max-width: 480px) {
-    body[data-view="landing"] header.site-header h1 { font-size: 40px; }
+    body[data-view="landing"] header.site-header h1 { font-size: 34px; }
     body[data-view="landing"] header.site-header .eyebrow { font-size: 14px; }
   }
 
@@ -103,6 +103,7 @@
     display: flex; align-items: flex-start;
     justify-content: space-between; gap: 12px;
   }
+  .card-top-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .btn-home {
     background: var(--white);
     color: var(--text-secondary);
@@ -198,9 +199,10 @@
   /* Tables visual layout */
   .tables-wrap {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin: 0 0 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 760px;
+    margin: 0 auto 8px;
   }
   .banquet-table {
     background: var(--white);
@@ -270,10 +272,7 @@
   }
   .seat.revealed .seat-name { color: var(--mint-deep); }
 
-  @media (max-width: 900px) {
-    .tables-wrap { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
     .tables-wrap { grid-template-columns: 1fr; }
   }
 
@@ -309,26 +308,21 @@
   .celebration p { color: var(--text-secondary); font-size: 14px; }
 
   /* Landing */
-  #landingView {
-    min-height: calc(100vh - 160px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  #landingView { padding-top: 60px; }
   .landing-buttons {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 16px;
     width: 100%;
-    max-width: 480px;
+    max-width: 520px;
     margin: 0 auto;
   }
   .landing-btn {
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 6px;
-    min-height: 120px;
-    padding: 24px 20px;
+    gap: 8px;
+    min-height: 170px;
+    padding: 36px 24px;
     border-radius: 14px;
     border: none;
     cursor: pointer;
@@ -403,8 +397,8 @@
 <body>
   <div class="app-shell">
     <header class="site-header">
-      <span class="eyebrow">속초고등학교 · 2026 제1회 속고 젊은이 모임</span>
-      <h1 id="heroTitle">오늘 내 자리는?</h1>
+      <span class="eyebrow">2026 속초고등학교</span>
+      <h1 id="heroTitle">제 1회 속고 젊은이 모임</h1>
     </header>
 
     <!-- LANDING VIEW -->
@@ -448,7 +442,10 @@
             <h2>내 자리 확인하기</h2>
             <p class="sub">이름을 입력하면 내 자리만 공개돼요. 다른 사람 자리는 모두가 확인할 때까지 가려져 있어요.</p>
           </div>
-          <button class="btn-home" data-nav="landing">홈으로</button>
+          <div class="card-top-actions">
+            <button class="btn-home" id="gotoSetupBtn">명단 설정</button>
+            <button class="btn-home" data-nav="landing">홈으로</button>
+          </div>
         </div>
         <div class="checkin-row">
           <input class="checkin-input" id="checkinInput" placeholder="이름을 입력하세요" maxlength="20" autocomplete="off" />
@@ -529,7 +526,7 @@
   const toastEl       = document.getElementById("toast");
 
   const HERO_TITLES = {
-    landing:  "오늘 내 자리는?",
+    landing:  "제 1회 속고 젊은이 모임",
     setup:    "참석자 명단 등록",
     checkin:  "오늘 내 자리는?",
     minigame: "미니게임",
@@ -540,7 +537,7 @@
       const el = document.getElementById(v + "View");
       if (el) el.classList.toggle("hidden", v !== name);
     });
-    if (heroTitle && HERO_TITLES[name]) heroTitle.textContent = HERO_TITLES[name];
+    if (heroTitle && HERO_TITLES[name]) heroTitle.innerHTML = HERO_TITLES[name];
     document.body.dataset.view = name;
     window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   }
@@ -788,6 +785,7 @@
   });
   goSeatBtn.addEventListener("click", handleSeatClick);
   goMinigameBtn.addEventListener("click", goToMinigame);
+  document.getElementById("gotoSetupBtn").addEventListener("click", goToSetup);
   document.querySelectorAll('[data-nav="landing"]').forEach(function (el) {
     el.addEventListener("click", goToLanding);
   });
